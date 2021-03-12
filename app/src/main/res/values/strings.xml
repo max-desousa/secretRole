@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">OnePersonDoesntKnowWord</string>
+    <string name="Splash_Prompt">How Many People??</string>
+    <string name="Entry_Box_Default_String">Enter # of people greater than 2</string>
+    <string name="prepare_round_button_text">Prepare Round</string>
+    <string name="NumberOfPeopleTextView">Number Of People</string>
+    <string name="number_of_input_people">The Number Of Input People For This Round:</string>
+    <string name="category_header">The Category For This Round Is:</string>
+    <string name="category_disclaimer">(This should be known by ALL people)</string>
+    <string name="final_button_text">I\'m ready to start the round</string>
+    <string name="initial_blank_text">[Your word will go here]</string>
+    <string name="private_display_button_text">Show Me My Word!!</string>
+    <string name="private_display_category_reminder_header">Psst… remember the category is:</string>
+    <string name="private_display_ignorance_string">You don\'t get to know the word :(</string>
+    <string name="private_display_all_people_shown_string">All people should have been shown the word…</string>
+</resources>
