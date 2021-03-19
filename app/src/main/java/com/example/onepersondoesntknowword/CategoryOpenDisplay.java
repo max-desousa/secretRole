@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,8 @@ public class CategoryOpenDisplay extends AppCompatActivity {
 
     private TextView mCategoryOfWord;
     private Button mFinalStartRoundButton;
+    private Switch mEverybodyKnowsWordSwitch;
+    private Switch mNobodyKnowsWordSwitch;
 
     private final List<WordCategoryPair> wordList = new ArrayList<>();
 
@@ -49,6 +52,8 @@ public class CategoryOpenDisplay extends AppCompatActivity {
 
         mCategoryOfWord = (TextView)findViewById(R.id.categoryTextView);
         mFinalStartRoundButton = (Button)findViewById(R.id.finalStartRoundButton);
+        mEverybodyKnowsWordSwitch = (Switch)findViewById(R.id.switch_chanceEveryoneKnows);
+        mNobodyKnowsWordSwitch = (Switch)findViewById(R.id.switch_chanceNooneKnows);
 
         TextView mNumberOfPeople = (TextView) findViewById(R.id.numberOfInputPeopleTextView);
         mNumberOfPeople.setText(String.valueOf(numberOfPeople));
@@ -119,11 +124,30 @@ public class CategoryOpenDisplay extends AppCompatActivity {
     }
 
     private void startRound() {
+
+        Random random = new Random();
+
+        boolean everybodyKnows = false;
+        boolean nobodyKnows = false;
+        int decidingDigit = random.nextInt(10);
+
+        if ((decidingDigit == 0) && (mEverybodyKnowsWordSwitch.isChecked())) {
+            everybodyKnows = true;
+        }
+
+        if ((decidingDigit == 1) && (mNobodyKnowsWordSwitch.isChecked())) {
+            nobodyKnows = true;
+        }
+
+
+
         Intent i = new Intent(CategoryOpenDisplay.this, WordPrivateDisplay.class);
         i.putExtra(WordPrivateDisplay.EXTRA_NUMBER_OF_PEOPLE, numberOfPeople);
         i.putExtra(WordPrivateDisplay.EXTRA_IGNORANT_PERSON_NUMBER, numberOfPersonThatDoesNotGetToKnowWord);
         i.putExtra(WordPrivateDisplay.EXTRA_WORD_UNDER_TEST, wordList.get(selectedWordIndex).getWord());
         i.putExtra(WordPrivateDisplay.EXTRA_CATEGORY_OF_WORD_UNDER_TEST, wordList.get(selectedWordIndex).getCategory());
+        i.putExtra(WordPrivateDisplay.EXTRA_EVERYBODY_KNOWS_WORD, everybodyKnows);
+        i.putExtra(WordPrivateDisplay.EXTRA_NOBODY_KNOWS_WORD, nobodyKnows);
         startActivity(i);
     }
 

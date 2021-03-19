@@ -15,6 +15,8 @@ public class WordPrivateDisplay extends AppCompatActivity {
     public static final String EXTRA_IGNORANT_PERSON_NUMBER = "com.example.onePersonDoesntKnowWord.wordPrivateDisplay.ignorantPerson";
     public static final String EXTRA_WORD_UNDER_TEST = "com.example.onePersonDoesntKnowWord.wordPrivateDisplay.wordToDraw";
     public static final String EXTRA_CATEGORY_OF_WORD_UNDER_TEST = "com.example.onePersonDoesntKnowWord.wordPrivateDisplay.categoryOfWord";
+    public static final String EXTRA_NOBODY_KNOWS_WORD = "com.example.onePersonDoesntKnowWord.wordPrivateDisplay.nobodyKnowsWord";
+    public static final String EXTRA_EVERYBODY_KNOWS_WORD = "com.example.onePersonDoesntKnowWord.wordPrivateDisplay.everybodyKnowsWord";
 
     private int personNumber;
 
@@ -25,6 +27,9 @@ public class WordPrivateDisplay extends AppCompatActivity {
     private Button mShowWordButton;
     private TextView mCategoryTextView;
     private TextView mWordTextView;
+
+    private boolean nobodyKnowsTheWord;
+    private boolean everybodyKnowsTheWord;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -51,6 +56,9 @@ public class WordPrivateDisplay extends AppCompatActivity {
 
         wordToDraw = getIntent().getStringExtra(EXTRA_WORD_UNDER_TEST);
 
+        everybodyKnowsTheWord = getIntent().getBooleanExtra(EXTRA_EVERYBODY_KNOWS_WORD, false);
+        nobodyKnowsTheWord = getIntent().getBooleanExtra(EXTRA_NOBODY_KNOWS_WORD, false);
+
         mCategoryTextView.setText(getIntent().getStringExtra(EXTRA_CATEGORY_OF_WORD_UNDER_TEST));
     }
 
@@ -58,12 +66,24 @@ public class WordPrivateDisplay extends AppCompatActivity {
 
         switch (_event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (personNumber < numberOfPeople) {
-                    if (personNumber == ignorantPersonNumber) {
-                        mWordTextView.setText(R.string.private_display_ignorance_string);
-                    } else {
-                        mWordTextView.setText(wordToDraw);
+                if (nobodyKnowsTheWord == false && everybodyKnowsTheWord == false) {
+                    if (personNumber < numberOfPeople) {
+
+                        if (personNumber == ignorantPersonNumber) {
+                            mWordTextView.setText(R.string.private_display_ignorance_string);
+                        } else {
+                            mWordTextView.setText(wordToDraw);
+                        }
                     }
+                }
+                else if (nobodyKnowsTheWord == true && everybodyKnowsTheWord == false) {
+                    mWordTextView.setText(R.string.private_display_ignorance_string);
+                }
+                else if (nobodyKnowsTheWord == false && everybodyKnowsTheWord == true) {
+                    mWordTextView.setText(wordToDraw);
+                }
+                else {
+                    mWordTextView.setText(R.string.private_display_rushed_change_has_broken);
                 }
                 return true;
             case MotionEvent.ACTION_UP:
